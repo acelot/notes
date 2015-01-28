@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="ru">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мои заметки – Magora Systems</title>
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="app/css/app.css"/>
+</head>
+<body ng-controller="NotesController as notes">
+    <div class="container">
+        <h1 class="page-header">Мои заметки</h1>
+
+        <div class="well">
+            <form name="form" ng-submit="notes.save(form)" novalidate>
+                <div class="form-group" ng-class="{'has-error': form.body.$invalid && form.body.$dirty}">
+                    <textarea name="body" placeholder="Введите заметку. Можно использовать Markdown." autofocus class="form-control" ng-model="notes.body" required ng-maxlength="notes.NOTE_MAXLENGTH"></textarea>
+                    <span class="label label-danger" ng-cloak ng-show="form.body.$error.required && form.body.$dirty">Введите что-нибудь</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-success" ng-disabled="form.$invalid">Добавить</button>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <p class="form-control-static text-muted" ng-cloak ng-hide="form.body.$error.maxlength && form.body.$dirty" ng-class="{'text-danger': form.body.$error.maxlength && form.body.$dirty}">Осталось символов <span class="badge">{{ notes.NOTE_MAXLENGTH - notes.body.length }}</span></p>
+                        <p class="form-control-static text-danger" ng-cloak ng-show="form.body.$error.maxlength && form.body.$dirty"><strong>Слишком длинная заметка</strong></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="panel panel-default" ng-cloak ng-repeat="note in notes.all | orderBy: '-createdAt'">
+            <div class="panel-body">
+                <div marked="note.body"></div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <small><time datetime="{{ note.createdAt }}" class="text-muted" am-time-ago="note.createdAt" am-preprocess="utc"></time></small>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <button class="btn btn-xs btn-default" ng-click="notes.remove(note.id)">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-warning text-center" ng-cloak ng-hide="notes.all.length">У вас еще нет заметок</div>
+    </div>
+
+    <!-- vendor -->
+    <script type="text/javascript" src="vendor/marked/marked.min.js"></script>
+    <script type="text/javascript" src="vendor/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="vendor/moment/locale/ru.js"></script>
+    <script type="text/javascript" src="vendor/angular/angular.min.js"></script>
+    <script type="text/javascript" src="vendor/ngstorage/ngStorage.min.js"></script>
+    <script type="text/javascript" src="vendor/angular-marked/angular-marked.min.js"></script>
+    <script type="text/javascript" src="vendor/angular-moment/angular-moment.min.js"></script>
+    <!-- end of vendor -->
+
+    <script type="text/javascript" src="app/js/app.js"></script>
+    <script type="text/javascript" src="app/js/uuid.service.js"></script>
+    <script type="text/javascript" src="app/js/notes.controller.js"></script>
+</body>
+</html>

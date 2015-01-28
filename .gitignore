@@ -1,0 +1,22 @@
+# IDEA
+/.idea/
+
+# Npm
+/node_modules/
+
+# Bower
+/vendor/
+
+# Build files
+/dist/
+
+# Misc
+*.lock
+*.log
+
+# Preserve
+!.gitkeep
+
+
+
+
