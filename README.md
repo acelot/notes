@@ -1,6 +1,6 @@
 # Notes
 
-Simple notes realization for Magora Systems
+Simple notes realization for interview
 
 # Usage
 
