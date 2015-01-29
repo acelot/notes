@@ -36,6 +36,7 @@
 
                 // Resetting form
                 vm.body = null;
+                vm.search = null;
                 form.$setPristine();
             }
         }

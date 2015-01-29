@@ -3,8 +3,9 @@
 <head lang="ru">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Мои заметки – Magora Systems</title>
+    <title>Мои заметки</title>
     <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="app/css/app.css"/>
 </head>
 <body ng-controller="NotesController as notes">
@@ -30,17 +31,24 @@
             </form>
         </div>
 
-        <div class="panel panel-default" ng-cloak ng-repeat="note in notes.all | orderBy: '-createdAt'">
+        <div class="form-group" ng-show="notes.all.length">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="fa fa-search"></span></div>
+                <input type="search" name="search" placeholder="Поиск" class="form-control" ng-model="notes.search"/>
+            </div>
+        </div>
+
+        <div class="panel panel-default" ng-cloak ng-repeat="note in notes.all | filter: notes.search | orderBy: '-createdAt'">
             <div class="panel-body">
                 <div marked="note.body"></div>
             </div>
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-xs-6">
-                        <small><time datetime="{{ note.createdAt }}" class="text-muted" am-time-ago="note.createdAt" am-preprocess="utc"></time></small>
+                        <small class="text-muted">Добавлена <time datetime="{{ note.createdAt }}" am-time-ago="note.createdAt" am-preprocess="utc"></time></small>
                     </div>
                     <div class="col-xs-6 text-right">
-                        <button class="btn btn-xs btn-default" ng-click="notes.remove(note.id)">Удалить</button>
+                        <button title="Удалить заметку" class="btn btn-xs btn-default" ng-click="notes.remove(note.id)"><span class="fa fa-trash text-muted"></span></button>
                     </div>
                 </div>
             </div>
